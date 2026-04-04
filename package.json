@@ -1,0 +1,55 @@
+{
+  "name": "amazon-monitor-v5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "yarn clear && tsc && cross-env NODE_ENV=development UV_THREADPOOL_SIZE=256 node dist/index.js",
+    "start:webhook": "yarn clear && tsc && cross-env NODE_ENV=webhook UV_THREADPOOL_SIZE=256 node dist/index.js",
+    "clear": "rimraf dist/",
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "migrate": "prisma migrate dev && prisma generate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eStockSoftware/amazon-monitor-v5.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eStockSoftware/amazon-monitor-v5/issues"
+  },
+  "homepage": "https://github.com/eStockSoftware/amazon-monitor-v5#readme",
+  "dependencies": {
+    "@prisma/client": "^4.8.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "axios": "0.21.1",
+    "chalk": "^4.1.0",
+    "discord-webhook-node": "^1.1.8",
+    "discord.js": "v12",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.22.0",
+    "get-user-agent": "^4.0.1",
+    "ioredis": "^4.22.0",
+    "lodash": "^4.17.21",
+    "node-html-parser": "^3.0.3",
+    "tough-cookie": "^4.0.0",
+    "uWebSockets.js": "uNetworking/uWebSockets.js#v20.61.0",
+    "user-agents": "^1.0.579",
+    "uuid": "^8.3.2",
+    "ws": "^7.4.3"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.170",
+    "@types/node": "^14.14.31",
+    "@types/user-agents": "^1.0.0",
+    "@types/uuid": "^8.3.0",
+    "@types/ws": "^7.4.0",
+    "cross-env": "^7.0.3",
+    "prisma": "^4.8.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.2.3"
+  }
+}

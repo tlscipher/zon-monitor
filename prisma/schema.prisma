@@ -1,0 +1,67 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Account {
+  id                  String   @id @default(cuid())
+  email               String
+  marketplaceId       String
+  websiteCookieString String
+  access_token        String?
+  asins               String[]
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model User {
+  id          String     @id @default(cuid())
+  email       String     @unique
+  name        String?
+  image       String?
+  googleId    String     @unique
+  isAdmin     Boolean    @default(false)
+  accounts    Account[]
+  checkouts   Checkout[]
+  maxAccounts Int        @default(5)
+  webhookURL  String?
+  createdAt   DateTime   @default(now())
+}
+
+model AllowedEmail {
+  id      String   @id @default(cuid())
+  email   String   @unique
+  addedAt DateTime @default(now())
+}
+
+model Checkout {
+  id               String   @id @default(cuid())
+  asin             String
+  title            String
+  price            Float
+  total            Float
+  seller           String
+  offerId          String
+  purchaseId       String
+  email            String
+  marketplace      String
+  deliveryEstimate String?
+  status           String   @default("success")
+  createdAt        DateTime @default(now())
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Products {
+  id         String @id @default(cuid())
+  asin       String @unique
+  offeringID String @unique
+  title      String
+  users      Int
+}
