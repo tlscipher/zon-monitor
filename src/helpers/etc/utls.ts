@@ -45,7 +45,8 @@ export const webhookIgnoredAsins = [
   "B07FZ8S74R",
   "B07PJV3JPR",
   "B0DN98RVZM",
-  "B0G4XJPN8Q"
+  "B0G4XJPN8Q",
+  "B0FRC3NSVP"
 ];
 
 export const getChunks = <T extends Array<any>>(
