@@ -153,7 +153,6 @@ export default class AppManager {
     extraData?: StringObject
   ): Promise<void> {
     if (
-      process.env.NODE_ENV === "webhook" &&
       !webhookIgnoredAsins.includes(offer.asin)
     ) {
       const embed: MessageBuilder = new MessageBuilder()
