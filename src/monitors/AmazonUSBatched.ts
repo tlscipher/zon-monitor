@@ -122,7 +122,7 @@ export default class AmazonUSBatched extends BatchedBaseMonitor {
         .join(",")}] [${result.account.info.email}] ${error}`;
       log(message, "red");
 
-      if (result.response.status !== 503) {
+      if (result.response.status !== 503 && result.response.status !== 429) {
         this.notifyError(new Error(message), extraErrorData);
       }
     }
