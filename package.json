@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "yarn clear && tsc && cross-env NODE_ENV=development UV_THREADPOOL_SIZE=256 node dist/index.js",
-    "start:webhook": "yarn clear && tsc && cross-env NODE_ENV=webhook UV_THREADPOOL_SIZE=256 node dist/index.js",
-    "clear": "rimraf dist/",
-    "build": "tsc",
+    "start": "rimraf dist/ && npx tsc && cross-env NODE_ENV=development UV_THREADPOOL_SIZE=256 node dist/index.js",
+    "start:webhook": "rimraf dist/ && npx tsc && cross-env NODE_ENV=webhook UV_THREADPOOL_SIZE=256 node dist/index.js",
+    "build": "npx tsc",
     "lint": "eslint . --ext .ts",
     "migrate": "prisma migrate dev && prisma generate"
   },

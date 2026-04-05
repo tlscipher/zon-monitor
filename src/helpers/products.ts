@@ -1,7 +1,6 @@
-import { PrismaClient } from ".prisma/client";
-import {AmazonProduct} from "../types/amazon";
+import { prisma } from "./db";
+import { AmazonProduct } from "../types/amazon";
 
 export const getProducts = async (): Promise<AmazonProduct[]> => {
-    const prisma = new PrismaClient();
-    return await prisma.products.findMany() as AmazonProduct[]
-}
+    return await prisma.products.findMany() as AmazonProduct[];
+};

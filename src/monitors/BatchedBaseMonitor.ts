@@ -24,9 +24,9 @@ import { productToOffer as parseVVAtc } from "../helpers/parsers";
 import { readFile } from "fs";
 import { AmazonProduct, InternalAccount } from "../types/amazon";
 import { Account } from ".prisma/client";
-import { PrismaClient } from "@prisma/client";
 import _ from "lodash";
 import { getProducts } from "../helpers/products";
+import { prisma } from "../helpers/db";
 
 export abstract class BatchedBaseMonitor extends EventEmitter {
   protected testProductInterval?: NodeJS.Timeout;
@@ -39,7 +39,7 @@ export abstract class BatchedBaseMonitor extends EventEmitter {
   protected etcWebhook: Webhook = new Webhook(Webhooks.etc);
   protected errorWebhook: Webhook = new Webhook(Webhooks.errors);
   protected cycleNum: number = 0;
-  protected accountsDB: PrismaClient = new PrismaClient();
+  protected accountsDB = prisma;
   abstract readonly marketplaceId: MarketplaceId;
   abstract readonly site: Site;
   abstract readonly testProduct: InternalProduct;
@@ -65,12 +65,12 @@ export abstract class BatchedBaseMonitor extends EventEmitter {
 
     this.startMonitorLoop();
 
-    if (this.toSendTestProduct) {
-      this.testProductInterval = setInterval(
-        this.sendTestProduct.bind(this),
-        5000
-      );
-    }
+    // if (this.toSendTestProduct) {
+    //   this.testProductInterval = setInterval(
+    //     this.sendTestProduct.bind(this),
+    //     5000
+    //   );
+    // }
   }
 
   async init(): Promise<void> {
@@ -173,7 +173,7 @@ export abstract class BatchedBaseMonitor extends EventEmitter {
       //const products = this.products.slice(0, this.maxProductCount);
 
       await Promise.allSettled(
-        _.chunk(this.products, 5).map(this.getMapFN(this.request, this.process))
+        _.chunk(this.products, 10).map(this.getMapFN(this.request, this.process))
       );
 
       log(
@@ -185,7 +185,7 @@ export abstract class BatchedBaseMonitor extends EventEmitter {
         "gray"
       );
 
-      await sleep(getRandom(100, 200));
+      await sleep(getRandom(200, 300));
     }
   }
 

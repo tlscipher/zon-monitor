@@ -22,8 +22,8 @@ import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { productToOffer as parseVVAtc } from "../helpers/parsers";
 import {AmazonProduct, InternalAccount} from "../types/amazon";
 import { Account } from ".prisma/client";
-import { PrismaClient } from "@prisma/client";
-import {getProducts} from "../helpers/products";
+import { getProducts } from "../helpers/products";
+import { prisma } from "../helpers/db";
 
 export abstract class BaseMonitor extends EventEmitter {
   protected testProductInterval?: NodeJS.Timeout;
@@ -36,7 +36,7 @@ export abstract class BaseMonitor extends EventEmitter {
   protected etcWebhook: Webhook = new Webhook(Webhooks.etc);
   protected errorWebhook: Webhook = new Webhook(Webhooks.errors);
   protected cycleNum: number = 0;
-  protected accountsDB: PrismaClient = new PrismaClient();
+  protected accountsDB = prisma;
   abstract readonly marketplaceId: MarketplaceId;
   abstract readonly site: Site;
   abstract readonly testProduct: InternalProduct;
@@ -62,12 +62,12 @@ export abstract class BaseMonitor extends EventEmitter {
 
     this.startMonitorLoop();
 
-    if (this.toSendTestProduct) {
-      this.testProductInterval = setInterval(
-        this.sendTestProduct.bind(this),
-        5000
-      );
-    }
+    // if (this.toSendTestProduct) {
+    //   this.testProductInterval = setInterval(
+    //     this.sendTestProduct.bind(this),
+    //     5000
+    //   );
+    // }
   }
 
   async init(): Promise<void> {
