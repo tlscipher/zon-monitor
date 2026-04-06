@@ -7,16 +7,51 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Site {
+  amazonUS
+  amazonUK
+  amazonCA
+}
+
+enum TaskType {
+  monitor
+  atc
+  god_mode
+}
+
+enum TaskStatus {
+  idle
+  adding_to_cart
+  checking_out
+}
+
 model Account {
   id                  String   @id @default(cuid())
   email               String
   marketplaceId       String
   websiteCookieString String
   access_token        String?
-  asins               String[]
+  tasks               Task[]
 
   User   User   @relation(fields: [userId], references: [id])
   userId String
+}
+
+model Task {
+  id              String      @id @default(cuid())
+  asin            String
+  offerId         String?
+  priceCheckCents Int?
+  site            Site
+  taskType        TaskType    @default(atc)
+  status          TaskStatus  @default(idle)
+  active          Boolean     @default(true)
+  createdAt       DateTime    @default(now())
+
+  Account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId String
+
+  @@unique([accountId, site, asin])
 }
 
 model User {

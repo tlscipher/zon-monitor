@@ -46,7 +46,6 @@ export interface AmazonAccount {
   email: string;
   marketplaceId: string;
   websiteCookieString: string;
-  access_token: string;
-  asins: string[];
+  access_token: string | null;
   userId: string;
 }
