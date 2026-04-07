@@ -173,7 +173,7 @@ export abstract class BatchedBaseMonitor extends EventEmitter {
       //const products = this.products.slice(0, this.maxProductCount);
 
       await Promise.allSettled(
-        _.chunk(this.products, 10).map(this.getMapFN(this.request, this.process))
+        _.chunk(this.products, 5).map(this.getMapFN(this.request, this.process))
       );
 
       log(
@@ -185,7 +185,7 @@ export abstract class BatchedBaseMonitor extends EventEmitter {
         "gray"
       );
 
-      await sleep(getRandom(200, 300));
+      await sleep(getRandom(250, 500));
     }
   }
 
